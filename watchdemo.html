@@ -1,266 +1,186 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pricing & Membership Demo</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Watch Demo — Analog + Digital + Stopwatch + Timer</title>
   <style>
-    body {
-      background-color: #0c192c;
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      margin: 0; padding: 0;
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa6bf; --accent:#4fd1c5; --glass: rgba(255,255,255,0.03);
+      --radius:16px; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
-    .pricing-section {
-      padding: 80px 40px;
-      text-align: center;
-    }
-    .pricing-container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .pricing-cards {
-      display: flex;
-      gap: 30px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .pricing-card {
-      background-color: #1b2b3f;
-      padding: 30px 20px;
-      border-radius: 16px;
-      max-width: 300px;
-      flex: 1 1 250px;
-      box-shadow: 0 4px 10px rgba(0, 170, 255, 0.05);
-      text-align: center;
-      transition: transform 0.3s ease;
-      cursor: default;
-    }
-    .pricing-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 170, 255, 0.15);
-    }
-    .pricing-card.highlighted {
-      border: 2px solid #00ffcc;
-    }
-    .pricing-card h3 {
-      margin-bottom: 10px;
-    }
-    .pricing-card .price {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #00aaff;
-    }
-    .pricing-card ul {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 30px;
-      color: #cfd7e2;
-    }
-    .pricing-card ul li {
-      margin: 10px 0;
-      font-size: 15px;
-    }
-    .pricing-card button {
-      background-color: #00aaff;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .pricing-card button:hover {
-      background-color: #008fcc;
-    }
+    *{box-sizing:border-box}
+    body{margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#071427 0%, #071824 100%); color:#e6eef8}
+    .wrap{width:920px; max-width:96%; padding:28px; display:grid; grid-template-columns:360px 1fr; gap:22px}
+    .card{background:var(--card); border-radius:var(--radius); padding:18px; box-shadow:0 6px 20px rgba(3,10,18,0.6);}
+    .watch-area{display:flex; gap:18px; align-items:center}
 
-    /* Membership Form */
-    #membershipFormSection {
-      display: none;
-      max-width: 400px;
-      margin: 40px auto;
-      background: #1b2b3f;
-      padding: 30px 20px;
-      border-radius: 12px;
-      color: #fff;
-      text-align: left;
-      box-shadow: 0 4px 15px rgba(0, 170, 255, 0.1);
-    }
-    #membershipFormSection h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #00aaff;
-    }
-    #membershipFormSection label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-    #membershipFormSection input {
-      width: 100%;
-      padding: 12px 15px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      border: none;
-      background-color: #293850;
-      color: #eee;
-      font-size: 16px;
-    }
-    #membershipFormSection input[readonly] {
-      background-color: #2a3b5d;
-      cursor: not-allowed;
-    }
-    #membershipFormSection button {
-      width: 100%;
-      background-color: #00aaff;
-      border: none;
-      padding: 15px;
-      border-radius: 10px;
-      color: white;
-      font-weight: 700;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    #membershipFormSection button:hover {
-      background-color: #008ecc;
-    }
+    /* Analog Clock */
+    .analog{width:240px; height:240px; border-radius:50%; background:linear-gradient(180deg,#0b1a2a,#061016); display:grid; place-items:center; position:relative; box-shadow:inset 0 6px 20px rgba(0,0,0,0.6), 0 6px 24px rgba(2,8,16,0.6)}
+    .face{width:86%; height:86%; border-radius:50%; position:relative; background:var(--glass); display:grid; place-items:center;}
+    .tick{position:absolute; width:2px; height:10%; top:4%; left:50%; transform-origin:50% 100%; background:var(--muted);}
+    .tick.hour{height:14%; width:4px; background:#dbeef7}
+    .center-dot{position:absolute; width:12px; height:12px; background:var(--accent); border-radius:50%; z-index:5}
+    .hand{position:absolute; left:50%; top:50%; transform-origin:50% 100%; transform:translate(-50%,-100%) rotate(0deg);}
+    .hand.hour{width:6px; height:42%; border-radius:6px; background:#dbeef7}
+    .hand.min{width:4px; height:56%; background:var(--muted)}
+    .hand.sec{width:2px; height:68%; background:#ff6b6b}
 
-    /* Popup */
-    #membershipPopup {
-      display: none;
-      position: fixed;
-      top:0; left:0; right:0; bottom:0;
-      background: rgba(0,0,0,0.7);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    #membershipPopup .popup-box {
-      background: #1b2b3f;
-      padding: 30px 40px;
-      border-radius: 12px;
-      text-align: center;
-      max-width: 320px;
-      color: #cfd7e2;
-      box-shadow: 0 10px 30px rgba(0, 170, 255, 0.2);
-    }
-    #membershipPopup h3 {
-      color: #00cc99;
-      margin-bottom: 10px;
-    }
-    #membershipPopup button {
-      background: #00aaff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
-      color: white;
-    }
+    /* Digital + controls */
+    .right{display:flex; flex-direction:column; gap:14px}
+    .digital{font-weight:700; font-size:36px; letter-spacing:1px; color:#e6f6f4}
+    .sub{color:var(--muted); font-size:13px}
+    .row{display:flex; gap:10px; align-items:center}
+    .btn{padding:8px 12px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); cursor:pointer}
+    .controls{display:flex; gap:8px; flex-wrap:wrap}
+
+    /* Stopwatch / Timer */
+    .small-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:12px; border-radius:12px}
+    .meter{font-family:monospace; font-size:20px;}
+
+    /* Responsive */
+    @media (max-width:760px){.wrap{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
-
-  <section class="pricing-section">
-    <div class="pricing-container">
-      <h2>Flexible Pricing Plans</h2>
-      <p class="subtitle">Choose a plan that fits your security needs</p>
-
-      <div class="pricing-cards">
-        <div class="pricing-card">
-          <h3>Free</h3>
-          <p class="price">$0<span>/mo</span></p>
-          <ul>
-            <li>Basic threat detection</li>
-            <li>Single device support</li>
-            <li>Community support</li>
-          </ul>
-          <button disabled>Select</button>
+  <div class="wrap">
+    <div class="card">
+      <div class="watch-area">
+        <div class="analog" id="analog">
+          <div class="face" id="face">
+            <!-- ticks created by JS -->
+            <div class="center-dot"></div>
+            <div class="hand hour" id="hourHand"></div>
+            <div class="hand min" id="minHand"></div>
+            <div class="hand sec" id="secHand"></div>
+          </div>
         </div>
-
-        <div class="pricing-card highlighted">
-          <h3>Pro</h3>
-          <p class="price">$9<span>/mo</span></p>
-          <ul>
-            <li>Advanced encryption</li>
-            <li>Up to 5 devices</li>
-            <li>Priority support</li>
-          </ul>
-          <button id="selectProBtn">Select</button>
-        </div>
-
-        <div class="pricing-card">
-          <h3>Enterprise</h3>
-          <p class="price">Custom</p>
-          <ul>
-            <li>Dedicated support</li>
-            <li>Unlimited devices</li>
-            <li>Custom integrations</li>
-          </ul>
-          <button disabled>Contact Us</button>
+        <div class="right">
+          <div>
+            <div class="digital" id="digital">00:00:00</div>
+            <div class="sub" id="dateStr">—</div>
+          </div>
+          <div class="controls">
+            <button class="btn" id="tzBtn">Toggle Local/UTC</button>
+            <button class="btn" id="themeBtn">Toggle Theme</button>
+          </div>
+          <div style="margin-top:8px">
+            <div class="small-card">
+              <div style="display:flex;justify-content:space-between;align-items:center"><div class="sub">Stopwatch</div><div class="sub meter" id="sw">00:00.00</div></div>
+              <div style="margin-top:8px;display:flex;gap:8px"><button class="btn" id="swStart">Start</button><button class="btn" id="swLap">Lap</button><button class="btn" id="swReset">Reset</button></div>
+              <div id="laps" style="margin-top:8px;color:var(--muted);font-size:13px;max-height:90px;overflow:auto"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Membership Form -->
-  <section id="membershipFormSection">
-    <h2>Get Your Pro Membership</h2>
-    <form id="membershipForm">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" required placeholder="Your full name" />
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" required placeholder="you@example.com" />
-      <label for="plan">Selected Plan</label>
-      <input type="text" id="planInput" name="plan" value="Pro - $9/mo" readonly />
-      <button type="submit">Get Membership</button>
-    </form>
-  </section>
-
-  <!-- Popup -->
-  <div id="membershipPopup">
-    <div class="popup-box">
-      <h3>🎉 Membership Confirmed!</h3>
-      <p>Thank you for signing up for the Pro plan.</p>
-      <button id="popupCloseBtn">OK</button>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center"><div class="sub">Timer</div><div class="sub" id="timerDisplay">00:00</div></div>
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+        <input type="number" id="minutes" min="0" step="1" placeholder="min" style="width:80px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
+        <input type="number" id="seconds" min="0" max="59" step="1" placeholder="sec" style="width:80px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
+        <button class="btn" id="setTimer">Set & Start</button>
+        <button class="btn" id="pauseTimer">Pause</button>
+        <button class="btn" id="resetTimer">Reset</button>
+      </div>
+      <div style="margin-top:12px;color:var(--muted);font-size:13px">Tip: you can toggle between local time and UTC, use stopwatch and timer here.</div>
     </div>
   </div>
 
-<script>
-  const selectProBtn = document.getElementById('selectProBtn');
-  const membershipFormSection = document.getElementById('membershipFormSection');
-  const membershipForm = document.getElementById('membershipForm');
-  const membershipPopup = document.getElementById('membershipPopup');
-  const popupCloseBtn = document.getElementById('popupCloseBtn');
+  <script>
+    // Create ticks
+    (function createTicks(){
+      const face = document.getElementById('face');
+      for(let i=0;i<60;i++){
+        const t = document.createElement('div'); t.className='tick';
+        if(i%5===0){ t.classList.add('hour'); t.style.height='14%'; }
+        t.style.transform = `translateX(-50%) rotate(${i*6}deg)`;
+        face.appendChild(t);
+      }
+    })();
 
-  // Show form when "Select" clicked on Pro plan
-  selectProBtn.addEventListener('click', () => {
-    membershipFormSection.style.display = 'block';
-    membershipFormSection.scrollIntoView({ behavior: 'smooth' });
-  });
+    // Clock update
+    const hourHand = document.getElementById('hourHand');
+    const minHand = document.getElementById('minHand');
+    const secHand = document.getElementById('secHand');
+    const digital = document.getElementById('digital');
+    const dateStr = document.getElementById('dateStr');
+    let useUTC = false;
 
-  // Handle form submission
-  membershipForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    // Optionally: here you can send form data to server
+    function pad(n, d=2){ return String(n).padStart(d,'0'); }
 
-    // Show popup confirmation
-    membershipPopup.style.display = 'flex';
+    function updateClock(){
+      const now = useUTC ? new Date(new Date().toUTCString()) : new Date();
+      const h = now.getHours();
+      const m = now.getMinutes();
+      const s = now.getSeconds();
+      const ms = now.getMilliseconds();
 
-    // Reset form and hide form after submission
-    membershipForm.reset();
-    membershipFormSection.style.display = 'none';
-  });
+      const hourAngle = (h%12)*30 + (m/60)*30;
+      const minAngle = m*6 + (s/60)*6;
+      const secAngle = s*6 + (ms/1000)*6;
 
-  // Close popup
-  popupCloseBtn.addEventListener('click', () => {
-    membershipPopup.style.display = 'none';
-  });
-</script>
+      hourHand.style.transform = `translate(-50%,-100%) rotate(${hourAngle}deg)`;
+      minHand.style.transform = `translate(-50%,-100%) rotate(${minAngle}deg)`;
+      secHand.style.transform = `translate(-50%,-100%) rotate(${secAngle}deg)`;
 
+      digital.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+      dateStr.textContent = now.toDateString() + (useUTC ? ' (UTC)' : ' (Local)');
+
+      requestAnimationFrame(updateClock);
+    }
+    requestAnimationFrame(updateClock);
+
+    document.getElementById('tzBtn').addEventListener('click', ()=>{ useUTC = !useUTC; });
+
+    // Theme toggle
+    document.getElementById('themeBtn').addEventListener('click', ()=>{
+      if(document.documentElement.style.getPropertyValue('--bg') === ''){
+        document.documentElement.style.setProperty('--bg','#0f1724');
+      }
+      document.body.classList.toggle('light');
+      if(document.body.classList.contains('light')){
+        document.documentElement.style.setProperty('--card','#f8fafc');
+        document.documentElement.style.setProperty('--muted','#44556b');
+        document.documentElement.style.setProperty('--accent','#2563eb');
+        document.body.style.color = '#071427';
+      } else {
+        document.documentElement.style.setProperty('--card','#0b1220');
+        document.documentElement.style.setProperty('--muted','#9aa6bf');
+        document.documentElement.style.setProperty('--accent','#4fd1c5');
+        document.body.style.color = '#e6eef8';
+      }
+    });
+
+    // Stopwatch
+    let swRunning=false; let swStart=0; let swElapsed=0; let swTimer=null; const swEl=document.getElementById('sw'); const lapsEl=document.getElementById('laps');
+    function formatStopwatch(ms){ const total = Math.floor(ms); const sec = Math.floor(total/1000); const m = Math.floor(sec/60); const s = sec%60; const cs = Math.floor((total%1000)/10); return `${pad(m)}:${pad(s)}.${pad(cs,2)}`; }
+
+    document.getElementById('swStart').addEventListener('click', ()=>{
+      if(!swRunning){ swRunning=true; swStart = performance.now() - swElapsed; document.getElementById('swStart').textContent='Pause'; swTimer = requestAnimationFrame(swLoop);
+      } else { swRunning=false; swElapsed = performance.now()-swStart; document.getElementById('swStart').textContent='Start'; cancelAnimationFrame(swTimer); }
+    });
+    document.getElementById('swReset').addEventListener('click', ()=>{ swRunning=false; swElapsed=0; swStart=0; swEl.textContent='00:00.00'; document.getElementById('swStart').textContent='Start'; lapsEl.innerHTML=''; cancelAnimationFrame(swTimer); });
+    document.getElementById('swLap').addEventListener('click', ()=>{ if(swElapsed||swRunning){ const ms = swRunning ? performance.now()-swStart : swElapsed; const el = document.createElement('div'); el.textContent = formatStopwatch(ms); lapsEl.prepend(el); }});
+    function swLoop(){ const ms = performance.now()-swStart; swEl.textContent = formatStopwatch(ms); swTimer = requestAnimationFrame(swLoop); }
+
+    // Timer
+    let timerTotal=0; let timerRemaining=0; let timerRunning=false; let timerRAF=null; const timerDisplay=document.getElementById('timerDisplay');
+    document.getElementById('setTimer').addEventListener('click', ()=>{
+      const min = Math.max(0, parseInt(document.getElementById('minutes').value||0));
+      const sec = Math.max(0, parseInt(document.getElementById('seconds').value||0));
+      timerTotal = (min*60 + sec) * 1000; if(timerTotal<=0) return alert('Enter a duration > 0');
+      timerRemaining = timerTotal; timerRunning=true; timerStartTime = performance.now(); cancelAnimationFrame(timerRAF); timerRAF = requestAnimationFrame(timerLoop);
+    });
+    document.getElementById('pauseTimer').addEventListener('click', ()=>{ timerRunning = !timerRunning; if(timerRunning) timerRAF = requestAnimationFrame(timerLoop); });
+    document.getElementById('resetTimer').addEventListener('click', ()=>{ timerRunning=false; timerRemaining=0; timerTotal=0; timerDisplay.textContent='00:00'; cancelAnimationFrame(timerRAF); });
+
+    function timerLoop(ts){ if(!timerRunning) return; const elapsed = performance.now() - (timerStartTime || performance.now()); timerRemaining = Math.max(0, timerRemaining - elapsed); timerStartTime = performance.now(); const s = Math.ceil(timerRemaining/1000); const mm = Math.floor(s/60); const ss = s%60; timerDisplay.textContent = `${pad(mm)}:${pad(ss)}`; if(timerRemaining<=0){ timerRunning=false; timerDisplay.textContent='00:00'; alert('Timer finished'); return; } timerRAF = requestAnimationFrame(timerLoop); }
+
+    // small safety: ensure performance.now offsets
+    let timerStartTime = 0;
+
+  </script>
 </body>
 </html>
