@@ -1,0 +1,124 @@
+.pricing-section {
+  background-color: #0c192c;
+  padding: 80px 40px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.pricing-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.pricing-section h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.pricing-section .subtitle {
+  color: #a0b2c5;
+  font-size: 18px;
+  margin-bottom: 50px;
+}
+
+.pricing-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.pricing-card {
+  background-color: #1b2b3f;
+  padding: 30px 20px;
+  border-radius: 16px;
+  max-width: 300px;
+  flex: 1 1 250px;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 170, 255, 0.05);
+  text-align: center;
+  position: relative;
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 170, 255, 0.15);
+}
+
+.pricing-card.highlighted {
+  border: 2px solid #00ffcc;
+}
+
+.pricing-card .icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon.blue {
+  background-color: #00aaff;
+}
+
+.icon.green {
+  background-color: #00cc66;
+}
+
+.icon.purple {
+  background-color: #a17cff;
+}
+
+.pricing-card img {
+  width: 30px;
+  height: 30px;
+  filter: brightness(0) invert(1);
+}
+
+.pricing-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.pricing-card .price {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #00aaff;
+}
+
+.pricing-card .price span {
+  font-size: 16px;
+  color: #a0b2c5;
+}
+
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+  color: #cfd7e2;
+}
+
+.pricing-card ul li {
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+.pricing-card button {
+  background-color: #00aaff;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.pricing-card button:hover {
+  background-color: #008fcc;
+}
