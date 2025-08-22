@@ -1,4 +1,90 @@
- <link rel="stylesheet" href="feature.css">
+<style>
+ .features-section {
+  background-color: #0d1b2a;
+  padding: 80px 40px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.features-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.features-section h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.features-section .subtitle {
+  color: #a0b2c5;
+  font-size: 18px;
+  margin-bottom: 50px;
+}
+
+.features-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.feature-card {
+  background-color: #1b2b3f;
+  padding: 30px 20px;
+  border-radius: 16px;
+  max-width: 300px;
+  flex: 1 1 250px;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 170, 255, 0.05);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 170, 255, 0.15);
+}
+
+.feature-card .icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon.purple {
+  background-color: #7f5af0;
+}
+
+.icon.teal {
+  background-color: #2ec4b6;
+}
+
+.icon.yellow {
+  background-color: #f4c430;
+}
+
+.feature-card img {
+  width: 30px;
+  height: 30px;
+  filter: brightness(0) invert(1);
+}
+
+.feature-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.feature-card p {
+  font-size: 15px;
+  color: #cfd7e2;
+}
+</style>
+
 <section class="features-section">
   <div class="features-container">
     <h2>Powerful Features</h2>
@@ -31,4 +117,5 @@
     </div>
   </div>
 </section>
+
 
