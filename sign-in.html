@@ -121,6 +121,12 @@ button:hover {
   color: #a0b2c5;
   margin-top: 20px;
 }
+  .demo-note {
+  font-size: 13px;
+  color: #a0b2c5;
+  margin-top: 20px;
+}
+
 
   </style>
 <!DOCTYPE html>
@@ -155,6 +161,15 @@ button:hover {
         </div>
 
         <button type="submit">Sign In Securely</button>
+        <!-- Success Popup -->
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <h3>✅ Login Successful</h3>
+    <p>Welcome back to SecureGuard!</p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+
       </form>
 
       <p class="demo-note">Demo credentials: Use any email/password</p>
