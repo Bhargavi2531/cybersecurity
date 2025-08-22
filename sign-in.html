@@ -1,0 +1,165 @@
+<style>
+  /* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0d1b2a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Login Container */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+/* Login Box */
+.login-box {
+  background-color: #1b2b3f;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 170, 255, 0.1);
+  text-align: center;
+}
+
+.login-icon {
+  background-color: #00aaff;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-icon img {
+  width: 30px;
+  height: 30px;
+  filter: brightness(0) invert(1);
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.subtext {
+  font-size: 14px;
+  color: #a0b2c5;
+  margin-bottom: 24px;
+}
+
+/* Input Fields */
+form {
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background-color: #112233;
+  border: 1px solid #2a3b55;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.input-group .icon {
+  margin-right: 10px;
+  color: #a0b2c5;
+  font-size: 16px;
+}
+
+.input-group input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  width: 100%;
+  font-size: 15px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(to right, #00aaff, #00c6ff);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(to right, #0099dd, #00bbee);
+}
+
+/* Demo Note */
+.demo-note {
+  font-size: 13px;
+  color: #a0b2c5;
+  margin-top: 20px;
+}
+
+  </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureGuard Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-icon">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/shield.png" alt="shield" />
+      </div>
+      <h2>SecureGuard</h2>
+      <p class="subtext">Enter your credentials to access your security dashboard</p>
+
+      <form>
+        <label for="email">Email</label>
+        <div class="input-group">
+          <span class="icon">@</span>
+          <input type="email" id="email" placeholder="admin@secureguard.com" required>
+        </div>
+
+        <label for="password">Password</label>
+        <div class="input-group">
+          <span class="icon">🔒</span>
+          <input type="password" id="password" placeholder="●●●●●●●" required>
+        </div>
+
+        <button type="submit">Sign In Securely</button>
+      </form>
+
+      <p class="demo-note">Demo credentials: Use any email/password</p>
+    </div>
+  </div>
+
+</body>
+</html>
