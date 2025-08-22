@@ -1,186 +1,87 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Watch Demo — Analog + Digital + Stopwatch + Timer</title>
-  <style>
-    :root{
-      --bg:#0f1724; --card:#0b1220; --muted:#9aa6bf; --accent:#4fd1c5; --glass: rgba(255,255,255,0.03);
-      --radius:16px; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
-    *{box-sizing:border-box}
-    body{margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#071427 0%, #071824 100%); color:#e6eef8}
-    .wrap{width:920px; max-width:96%; padding:28px; display:grid; grid-template-columns:360px 1fr; gap:22px}
-    .card{background:var(--card); border-radius:var(--radius); padding:18px; box-shadow:0 6px 20px rgba(3,10,18,0.6);}
-    .watch-area{display:flex; gap:18px; align-items:center}
+<!-- Watch Demo Button -->
+<button id="watchDemoBtn" class="btn">Watch Demo</button>
 
-    /* Analog Clock */
-    .analog{width:240px; height:240px; border-radius:50%; background:linear-gradient(180deg,#0b1a2a,#061016); display:grid; place-items:center; position:relative; box-shadow:inset 0 6px 20px rgba(0,0,0,0.6), 0 6px 24px rgba(2,8,16,0.6)}
-    .face{width:86%; height:86%; border-radius:50%; position:relative; background:var(--glass); display:grid; place-items:center;}
-    .tick{position:absolute; width:2px; height:10%; top:4%; left:50%; transform-origin:50% 100%; background:var(--muted);}
-    .tick.hour{height:14%; width:4px; background:#dbeef7}
-    .center-dot{position:absolute; width:12px; height:12px; background:var(--accent); border-radius:50%; z-index:5}
-    .hand{position:absolute; left:50%; top:50%; transform-origin:50% 100%; transform:translate(-50%,-100%) rotate(0deg);}
-    .hand.hour{width:6px; height:42%; border-radius:6px; background:#dbeef7}
-    .hand.min{width:4px; height:56%; background:var(--muted)}
-    .hand.sec{width:2px; height:68%; background:#ff6b6b}
-
-    /* Digital + controls */
-    .right{display:flex; flex-direction:column; gap:14px}
-    .digital{font-weight:700; font-size:36px; letter-spacing:1px; color:#e6f6f4}
-    .sub{color:var(--muted); font-size:13px}
-    .row{display:flex; gap:10px; align-items:center}
-    .btn{padding:8px 12px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); cursor:pointer}
-    .controls{display:flex; gap:8px; flex-wrap:wrap}
-
-    /* Stopwatch / Timer */
-    .small-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:12px; border-radius:12px}
-    .meter{font-family:monospace; font-size:20px;}
-
-    /* Responsive */
-    @media (max-width:760px){.wrap{grid-template-columns:1fr;}}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="card">
-      <div class="watch-area">
-        <div class="analog" id="analog">
-          <div class="face" id="face">
-            <!-- ticks created by JS -->
-            <div class="center-dot"></div>
-            <div class="hand hour" id="hourHand"></div>
-            <div class="hand min" id="minHand"></div>
-            <div class="hand sec" id="secHand"></div>
-          </div>
-        </div>
-        <div class="right">
-          <div>
-            <div class="digital" id="digital">00:00:00</div>
-            <div class="sub" id="dateStr">—</div>
-          </div>
-          <div class="controls">
-            <button class="btn" id="tzBtn">Toggle Local/UTC</button>
-            <button class="btn" id="themeBtn">Toggle Theme</button>
-          </div>
-          <div style="margin-top:8px">
-            <div class="small-card">
-              <div style="display:flex;justify-content:space-between;align-items:center"><div class="sub">Stopwatch</div><div class="sub meter" id="sw">00:00.00</div></div>
-              <div style="margin-top:8px;display:flex;gap:8px"><button class="btn" id="swStart">Start</button><button class="btn" id="swLap">Lap</button><button class="btn" id="swReset">Reset</button></div>
-              <div id="laps" style="margin-top:8px;color:var(--muted);font-size:13px;max-height:90px;overflow:auto"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center"><div class="sub">Timer</div><div class="sub" id="timerDisplay">00:00</div></div>
-      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-        <input type="number" id="minutes" min="0" step="1" placeholder="min" style="width:80px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
-        <input type="number" id="seconds" min="0" max="59" step="1" placeholder="sec" style="width:80px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit">
-        <button class="btn" id="setTimer">Set & Start</button>
-        <button class="btn" id="pauseTimer">Pause</button>
-        <button class="btn" id="resetTimer">Reset</button>
-      </div>
-      <div style="margin-top:12px;color:var(--muted);font-size:13px">Tip: you can toggle between local time and UTC, use stopwatch and timer here.</div>
-    </div>
+<!-- Modal -->
+<div id="demoModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Watch Demo</h2>
+    <!-- Replace below iframe src with your demo video URL -->
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+      title="Demo Video" frameborder="0" allowfullscreen></iframe>
   </div>
+</div>
 
-  <script>
-    // Create ticks
-    (function createTicks(){
-      const face = document.getElementById('face');
-      for(let i=0;i<60;i++){
-        const t = document.createElement('div'); t.className='tick';
-        if(i%5===0){ t.classList.add('hour'); t.style.height='14%'; }
-        t.style.transform = `translateX(-50%) rotate(${i*6}deg)`;
-        face.appendChild(t);
-      }
-    })();
+<style>
+  /* Button styling */
+  .btn {
+    background-color: #00aaff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
 
-    // Clock update
-    const hourHand = document.getElementById('hourHand');
-    const minHand = document.getElementById('minHand');
-    const secHand = document.getElementById('secHand');
-    const digital = document.getElementById('digital');
-    const dateStr = document.getElementById('dateStr');
-    let useUTC = false;
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.7);
+  }
 
-    function pad(n, d=2){ return String(n).padStart(d,'0'); }
+  /* Modal Content box */
+  .modal-content {
+    background-color: #1b2b3f;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 600px;
+    text-align: center;
+    color: #fff;
+  }
 
-    function updateClock(){
-      const now = useUTC ? new Date(new Date().toUTCString()) : new Date();
-      const h = now.getHours();
-      const m = now.getMinutes();
-      const s = now.getSeconds();
-      const ms = now.getMilliseconds();
+  /* Close button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
 
-      const hourAngle = (h%12)*30 + (m/60)*30;
-      const minAngle = m*6 + (s/60)*6;
-      const secAngle = s*6 + (ms/1000)*6;
+  .close:hover {
+    color: #fff;
+  }
+</style>
 
-      hourHand.style.transform = `translate(-50%,-100%) rotate(${hourAngle}deg)`;
-      minHand.style.transform = `translate(-50%,-100%) rotate(${minAngle}deg)`;
-      secHand.style.transform = `translate(-50%,-100%) rotate(${secAngle}deg)`;
+<script>
+  // Get modal and button elements
+  const modal = document.getElementById("demoModal");
+  const btn = document.getElementById("watchDemoBtn");
+  const span = document.querySelector(".close");
 
-      digital.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
-      dateStr.textContent = now.toDateString() + (useUTC ? ' (UTC)' : ' (Local)');
+  // When the user clicks the button, open the modal
+  btn.onclick = () => {
+    modal.style.display = "block";
+  };
 
-      requestAnimationFrame(updateClock);
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  // When the user clicks anywhere outside the modal content, close it
+  window.onclick = (event) => {
+    if (event.target == modal) {
+      modal.style.display = "none";
     }
-    requestAnimationFrame(updateClock);
-
-    document.getElementById('tzBtn').addEventListener('click', ()=>{ useUTC = !useUTC; });
-
-    // Theme toggle
-    document.getElementById('themeBtn').addEventListener('click', ()=>{
-      if(document.documentElement.style.getPropertyValue('--bg') === ''){
-        document.documentElement.style.setProperty('--bg','#0f1724');
-      }
-      document.body.classList.toggle('light');
-      if(document.body.classList.contains('light')){
-        document.documentElement.style.setProperty('--card','#f8fafc');
-        document.documentElement.style.setProperty('--muted','#44556b');
-        document.documentElement.style.setProperty('--accent','#2563eb');
-        document.body.style.color = '#071427';
-      } else {
-        document.documentElement.style.setProperty('--card','#0b1220');
-        document.documentElement.style.setProperty('--muted','#9aa6bf');
-        document.documentElement.style.setProperty('--accent','#4fd1c5');
-        document.body.style.color = '#e6eef8';
-      }
-    });
-
-    // Stopwatch
-    let swRunning=false; let swStart=0; let swElapsed=0; let swTimer=null; const swEl=document.getElementById('sw'); const lapsEl=document.getElementById('laps');
-    function formatStopwatch(ms){ const total = Math.floor(ms); const sec = Math.floor(total/1000); const m = Math.floor(sec/60); const s = sec%60; const cs = Math.floor((total%1000)/10); return `${pad(m)}:${pad(s)}.${pad(cs,2)}`; }
-
-    document.getElementById('swStart').addEventListener('click', ()=>{
-      if(!swRunning){ swRunning=true; swStart = performance.now() - swElapsed; document.getElementById('swStart').textContent='Pause'; swTimer = requestAnimationFrame(swLoop);
-      } else { swRunning=false; swElapsed = performance.now()-swStart; document.getElementById('swStart').textContent='Start'; cancelAnimationFrame(swTimer); }
-    });
-    document.getElementById('swReset').addEventListener('click', ()=>{ swRunning=false; swElapsed=0; swStart=0; swEl.textContent='00:00.00'; document.getElementById('swStart').textContent='Start'; lapsEl.innerHTML=''; cancelAnimationFrame(swTimer); });
-    document.getElementById('swLap').addEventListener('click', ()=>{ if(swElapsed||swRunning){ const ms = swRunning ? performance.now()-swStart : swElapsed; const el = document.createElement('div'); el.textContent = formatStopwatch(ms); lapsEl.prepend(el); }});
-    function swLoop(){ const ms = performance.now()-swStart; swEl.textContent = formatStopwatch(ms); swTimer = requestAnimationFrame(swLoop); }
-
-    // Timer
-    let timerTotal=0; let timerRemaining=0; let timerRunning=false; let timerRAF=null; const timerDisplay=document.getElementById('timerDisplay');
-    document.getElementById('setTimer').addEventListener('click', ()=>{
-      const min = Math.max(0, parseInt(document.getElementById('minutes').value||0));
-      const sec = Math.max(0, parseInt(document.getElementById('seconds').value||0));
-      timerTotal = (min*60 + sec) * 1000; if(timerTotal<=0) return alert('Enter a duration > 0');
-      timerRemaining = timerTotal; timerRunning=true; timerStartTime = performance.now(); cancelAnimationFrame(timerRAF); timerRAF = requestAnimationFrame(timerLoop);
-    });
-    document.getElementById('pauseTimer').addEventListener('click', ()=>{ timerRunning = !timerRunning; if(timerRunning) timerRAF = requestAnimationFrame(timerLoop); });
-    document.getElementById('resetTimer').addEventListener('click', ()=>{ timerRunning=false; timerRemaining=0; timerTotal=0; timerDisplay.textContent='00:00'; cancelAnimationFrame(timerRAF); });
-
-    function timerLoop(ts){ if(!timerRunning) return; const elapsed = performance.now() - (timerStartTime || performance.now()); timerRemaining = Math.max(0, timerRemaining - elapsed); timerStartTime = performance.now(); const s = Math.ceil(timerRemaining/1000); const mm = Math.floor(s/60); const ss = s%60; timerDisplay.textContent = `${pad(mm)}:${pad(ss)}`; if(timerRemaining<=0){ timerRunning=false; timerDisplay.textContent='00:00'; alert('Timer finished'); return; } timerRAF = requestAnimationFrame(timerLoop); }
-
-    // small safety: ensure performance.now offsets
-    let timerStartTime = 0;
-
-  </script>
-</body>
-</html>
+  };
+</script>
