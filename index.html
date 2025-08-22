@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureGuard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #0d1a2d;
+      color: white;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #0d1a2d;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: white;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+    }
+
+    .sign-in {
+      border: 1px solid #00aaff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: #00aaff;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .sign-in:hover {
+      background: #00aaff33;
+    }
+
+    .hero {
+      padding: 60px 40px;
+      text-align: left;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: #00aaff;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #cfcfcf;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background-color: #00aaff;
+      color: white;
+    }
+
+    .btn-secondary {
+      border: 2px solid #00aaff;
+      color: #00aaff;
+      background: transparent;
+    }
+
+    .features {
+      display: flex;
+      gap: 30px;
+      font-size: 16px;
+      color: #9fffb4;
+      margin-top: 20px;
+    }
+
+    .features span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkmark {
+      color: #00ff99;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .buttons {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .features {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">🛡 SecureGuard</div>
+    <nav>
+      <a href="#">Features</a>
+      <a href="#">Security</a>
+      <a href="#">Pricing</a>
+      <a href="#" class="sign-in">Sign In</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Ultimate <span>Cyber Protection</span></h1>
+    <p>Advanced threat detection and real-time protection for your digital assets. One click to activate comprehensive security across all your devices.</p>
+    <div class="buttons">
+      <a href="#" class="btn-primary">Get Protected Now →</a>
+      <a href="#" class="btn-secondary">Watch Demo</a>
+    </div>
+    <div class="features">
+      <span><span class="checkmark">✔</span> 99.9% Threat Detection</span>
+      <span><span class="checkmark">✔</span> Real-time Monitoring</span>
+      <span><span class="checkmark">✔</span> 24/7 Support</span>
+    </div>
+  </section>
+
+</body>
+</html>
