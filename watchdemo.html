@@ -1,87 +1,98 @@
-<!-- Watch Demo Button -->
-<button id="watchDemoBtn" class="btn">Watch Demo</button>
-
-<!-- Modal -->
-<div id="demoModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Watch Demo</h2>
-    <!-- Replace below iframe src with your demo video URL -->
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-      title="Demo Video" frameborder="0" allowfullscreen></iframe>
-  </div>
-</div>
-
-<style>
-  /* Button styling */
-  .btn {
-    background-color: #00aaff;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  /* The Modal (background) */
-  .modal {
-    display: none; /* Hidden by default */
-    position: fixed; 
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; 
-    background-color: rgba(0,0,0,0.7);
-  }
-
-  /* Modal Content box */
-  .modal-content {
-    background-color: #1b2b3f;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 12px;
-    max-width: 600px;
-    text-align: center;
-    color: #fff;
-  }
-
-  /* Close button */
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .close:hover {
-    color: #fff;
-  }
-</style>
-
-<script>
-  // Get modal and button elements
-  const modal = document.getElementById("demoModal");
-  const btn = document.getElementById("watchDemoBtn");
-  const span = document.querySelector(".close");
-
-  // When the user clicks the button, open the modal
-  btn.onclick = () => {
-    modal.style.display = "block";
-  };
-
-  // When the user clicks on <span> (x), close the modal
-  span.onclick = () => {
-    modal.style.display = "none";
-  };
-
-  // When the user clicks anywhere outside the modal content, close it
-  window.onclick = (event) => {
-    if (event.target == modal) {
-      modal.style.display = "none";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Watch Demo Modal</title>
+  <style>
+    /* Button styling */
+    .btn {
+      background-color: #00aaff;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
     }
-  };
-</script>
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; 
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.7);
+    }
+
+    /* Modal Content box */
+    .modal-content {
+      background-color: #1b2b3f;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      text-align: center;
+      color: #fff;
+    }
+
+    /* Close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Watch Demo Button -->
+  <button id="watchDemoBtn" class="btn">Watch Demo</button>
+
+  <!-- Modal -->
+  <div id="demoModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Watch Demo</h2>
+      <!-- Replace iframe src with your own demo video URL -->
+      <iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+        title="Demo Video" frameborder="0" allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <script>
+    // Get modal and button elements
+    const modal = document.getElementById("demoModal");
+    const btn = document.getElementById("watchDemoBtn");
+    const span = document.querySelector(".close");
+
+    // When the user clicks the button, open the modal
+    btn.onclick = () => {
+      modal.style.display = "block";
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = () => {
+      modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside the modal content, close it
+    window.onclick = (event) => {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
+</body>
+</html>
