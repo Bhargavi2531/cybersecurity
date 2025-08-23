@@ -89,10 +89,10 @@
   <header>
     <h1>SecureGuard</h1>
     <nav>
-      <a href="feature.html">Features</a>
-      <a href="security.html">Security</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="sign-in.html" class="sign-in">Sign In</a>
+      <a href="#">Features</a>
+      <a href="#">Security</a>
+      <a href="#">Pricing</a>
+      <a href="#" class="sign-in">Sign In</a>
     </nav>
   </header>
 
@@ -105,36 +105,11 @@
     <button class="btn btn-primary">Get Protected Now →</button>
     <button class="btn btn-secondary">Watch Demo</button>
 
-    <div class="features" id="features">
-      <span>Loading...</span>
+    <div class="features">
+      <span>✔ 99.9% Threat Detection</span>
+      <span>✔ Real-time Monitoring</span>
+      <span>✔ 24/7 Support</span>
     </div>
   </section>
-
-  <script>
-    async function loadFeatures() {
-      try {
-        const res = await fetch("http://localhost:5000/api/threats");
-        const json = await res.json();
-
-        if (json.success && json.data.length > 0) {
-          const d = json.data[0];
-          document.getElementById("features").innerHTML = `
-            <span>✔ ${d.detection_rate}</span>
-            <span>✔ ${d.monitoring}</span>
-            <span>✔ ${d.support}</span>
-          `;
-        } else {
-          document.getElementById("features").innerHTML = "<span>⚠ No data available</span>";
-        }
-      } catch (err) {
-        console.error(err);
-        document.getElementById("features").innerHTML = "<span>❌ Failed to load data</span>";
-      }
-    }
-
-    loadFeatures();
-  </script>
 </body>
 </html>
-
-
