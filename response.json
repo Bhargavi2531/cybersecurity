@@ -1,10 +1,6 @@
 {
-  "success": true,
-  "data": [
-    {
-      "detection_rate": "99.9% Threat Detection",
-      "monitoring": "Real-time Monitoring",
-      "support": "24/7 Support"
-    }
-  ]
+  "safe": true,
+  "host": "example.com",
+  "protocol": "https:",
+  "reasons": []
 }
