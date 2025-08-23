@@ -1,82 +1,115 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Site Security Checker — Demo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureGuard</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-    pre { background:#f5f5f5; padding:1rem; border-radius:8px; }
-    .bookmarklet { background:#222;color:#fff;padding:.6rem;border-radius:6px;display:inline-block;text-decoration:none;}
-    .warn-overlay {
-      position: fixed; left:0; right:0; top:0; bottom:0; display:flex; align-items:center; justify-content:center;
-      z-index:9999999; background: rgba(0,0,0,0.6);
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d1b2a;
+      color: #fff;
     }
-    .warn-box { background:white; padding:1.2rem; border-radius:10px; max-width:600px; text-align:left; box-shadow:0 6px 30px rgba(0,0,0,.3); }
-    button { padding:.5rem 1rem; margin-top:.6rem; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 3rem;
+    }
+    header h1 {
+      font-size: 1.5rem;
+      color: #4fc3f7;
+    }
+    nav a {
+      margin-left: 2rem;
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a:hover {
+      color: #fff;
+    }
+    .sign-in {
+      border: 1px solid #4fc3f7;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem;
+    }
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero h2 span {
+      color: #03a9f4;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #b0bec5;
+    }
+    .btn {
+      padding: 1rem 2rem;
+      margin: 0.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: #03a9f4;
+      color: #fff;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #03a9f4;
+      color: #03a9f4;
+    }
+    .features {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      font-size: 1rem;
+    }
+    .features span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #a5d6a7;
+    }
   </style>
 </head>
 <body>
-  <h1>Site Security Checker — Demo</h1>
-  <p>This demo gives you a bookmarklet. When you open any website, click the bookmarklet and it will check the site using our backend API. If the site is insecure or blacklisted, you'll see a visible warning overlay.</p>
+  <header>
+    <h1>SecureGuard</h1>
+    <nav>
+      <a href="#">Features</a>
+      <a href="#">Security</a>
+      <a href="#">Pricing</a>
+      <a href="#" class="sign-in">Sign In</a>
+    </nav>
+  </header>
 
-  <h2>1) Create the bookmarklet</h2>
-  <p>Drag this link to your bookmarks bar (or right-click → Add to bookmarks):</p>
-  <a class="bookmarklet" id="bmLink" href="#">Check Site (Bookmarklet)</a>
+  <section class="hero">
+    <h2>Ultimate <span>Cyber Protection</span></h2>
+    <p>
+      Advanced threat detection and real-time protection for your digital assets. 
+      One click to activate comprehensive security across all your devices.
+    </p>
+    <button class="btn btn-primary">Get Protected Now →</button>
+    <button class="btn btn-secondary">Watch Demo</button>
 
-  <h3>Or manual bookmarklet code</h3>
-  <pre id="bmCode"></pre>
-
-  <h2>2) Demo API call (paste URL)</h2>
-  <input id="urlInput" style="width:70%" placeholder="https://example.com" />
-  <button id="checkBtn">Check</button>
-  <pre id="result"></pre>
-
-  <script>
-    const apiBase = location.origin; // demo: same origin (http://localhost:4000) if served by server
-
-    // Compose bookmarklet JS (minified-ish) which fetches /api/check?url=...
-    const snippet = `
-      (function(){
-        const u = encodeURIComponent(location.href);
-        fetch('${apiBase}/api/check?url='+u).then(r=>r.json()).then(j=>{
-          if(!j.safe){
-            // create overlay
-            const div = document.createElement('div');
-            div.className = 'warn-overlay';
-            div.innerHTML = '<div class="warn-box"><h2 style="color:#b00">Warning — Unsecure Site</h2>' +
-              '<p><strong>Host:</strong> '+(j.host||'')+'<br><strong>Protocol:</strong> '+(j.protocol||'')+'</p>' +
-              (j.reasons && j.reasons.length ? '<p><strong>Reasons:</strong><ul>'+j.reasons.map(r=>'<li>'+r+'</li>').join('')+'</ul></p>' : '') +
-              '<p style="margin-top:.6rem"><button id="closeWarn">Close</button> <button id="leaveSite">Leave site (open google)</button></p></div>';
-            document.body.appendChild(div);
-            document.getElementById('closeWarn').onclick = ()=> div.remove();
-            document.getElementById('leaveSite').onclick = ()=> { window.open('https://www.google.com','_blank'); div.remove(); };
-          } else {
-            alert('Site appears safe (basic checks).');
-          }
-        }).catch(e=>{ alert('Check failed: '+e.message) });
-      })();
-    `.trim();
-
-    // Create a compact single-line bookmarklet href
-    const bmHref = 'javascript:' + encodeURIComponent(snippet);
-    const bmLink = document.getElementById('bmLink');
-    bmLink.href = bmHref;
-    document.getElementById('bmCode').textContent = snippet;
-
-    // Demo UI check (non bookmarklet)
-    document.getElementById('checkBtn').onclick = async () => {
-      const u = document.getElementById('urlInput').value.trim();
-      if(!u) return alert('enter url');
-      try {
-        const res = await fetch(apiBase + '/api/check?url=' + encodeURIComponent(u));
-        const j = await res.json();
-        document.getElementById('result').textContent = JSON.stringify(j, null, 2);
-        if(!j.safe) alert('Warning: site flagged');
-      } catch (e) {
-        document.getElementById('result').textContent = 'error: '+e.message;
-      }
-    };
-  </script>
+    <div class="features">
+      <span>✔ 99.9% Threat Detection</span>
+      <span>✔ Real-time Monitoring</span>
+      <span>✔ 24/7 Support</span>
+    </div>
+  </section>
 </body>
 </html>
