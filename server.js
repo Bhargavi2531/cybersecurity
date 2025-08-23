@@ -1,50 +1,40 @@
-const express = require("express");
-const cors = require("cors");
-const { HiveClient, TCLIService_types } = require("hive-driver");
+// backend/server.js
+import express from "express";
+import cors from "cors";
 
 const app = express();
 app.use(cors());
-app.use(express.json());
 
-// Hive connection config
-const hiveClient = new HiveClient(
-  TCLIService_types.TProtocolVersion.HIVE_CLI_SERVICE_PROTOCOL_V10
-);
+// API endpoint
+app.get("/api/check", (req, res) => {
+  const targetUrl = req.query.url;
 
-async function connectHive() {
-  await hiveClient.connect({
-    host: "localhost",   // Hive server host
-    port: 10000,         // Hive server port
-    options: {
-      transport: "TCP",
-      username: "hiveuser",
-      password: "hivepassword"
-    }
-  });
-}
+  if (!targetUrl) {
+    return res.status(400).json({ error: "Missing url parameter" });
+  }
 
-connectHive().then(() => console.log("✅ Connected to Hive")).catch(console.error);
-
-// API endpoint to fetch threat stats (dummy table example)
-app.get("/api/threats", async (req, res) => {
   try {
-    const session = await hiveClient.openSession({ client_protocol: 0 });
-    const query = "SELECT detection_rate, monitoring, support FROM security_stats LIMIT 1";
-    const exec = await session.executeStatement(query);
-    const result = await exec.fetchAll();
+    const parsed = new URL(targetUrl);
+
+    let isSafe = parsed.protocol === "https:";
+    let reasons = [];
+
+    if (!isSafe) {
+      reasons.push("Uses HTTP instead of HTTPS (connection not encrypted)");
+    }
 
     res.json({
-      success: true,
-      data: result
+      safe: isSafe,
+      host: parsed.hostname,
+      protocol: parsed.protocol,
+      reasons,
     });
 
-    await session.close();
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, error: err.message });
+    res.status(400).json({ error: "Invalid URL" });
   }
 });
 
-app.listen(5000, () => {
-  console.log("🚀 Backend running on http://localhost:5000");
-});
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`✅ Backend running on port ${PORT}`));
